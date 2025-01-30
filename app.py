@@ -11,7 +11,8 @@ app = Flask(__name__)
 final_data = pd.read_csv('movie_data.csv')
 
 # Load precomputed cosine similarity matrix for recommendations
-cosine_sim = np.load('cosine_sim_matrix.npy')
+cosine_sim = np.load('cosine_sim_matrix.npy', allow_pickle=True)
+
 
 # Load trained TF-IDF vectorizer used for feature extraction
 with open('tfidf_vectorizer.pkl', 'rb') as f:
