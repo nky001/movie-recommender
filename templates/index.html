@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Recommender</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Movie Recommender System</h1>
+        <input type="text" id="movieInput" placeholder="Enter a movie name...">
+        <button onclick="getRecommendations()">Recommend</button>
+        
+        <div id="movies-list"></div>
+    <div id="tvshows-list"></div>
+
+    </div>
+
+    <script>
+        function getRecommendations() {
+            let movie = document.getElementById('movieInput').value;
+            if (!movie) {
+                alert("Please enter a movie name.");
+                return;
+            }
+
+            fetch('/recommend', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title: movie })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("API Response:", data);  // Debugging
+            
+                // Select elements safely
+                const moviesList = document.getElementById('movies-list');
+                const tvShowsList = document.getElementById('tvshows-list');
+            
+                // Check if elements exist before modifying them
+                if (!moviesList || !tvShowsList) {
+                    console.error("Error: HTML elements for movie and TV show lists are missing.");
+                    return;
+                }
+            
+                // Handle empty recommendations
+                if (data.movies.length === 0 && data.tv_shows.length === 0) {
+                    moviesList.innerHTML = "<p>No recommendations found.</p>";
+                    tvShowsList.innerHTML = "";
+                    return;
+                }
+            
+                // Update movies list
+                moviesList.innerHTML = "<h3>Recommended Movies:</h3>";
+                data.movies.forEach(movie => {
+                    moviesList.innerHTML += `<p>${movie}</p>`;
+                });
+            
+                // Update TV shows list
+                tvShowsList.innerHTML = "<h3>Recommended TV Shows:</h3>";
+                data.tv_shows.forEach(show => {
+                    tvShowsList.innerHTML += `<p>${show}</p>`;
+                });
+            })
+            .catch(error => console.error("Error:", error));
+            
+        }
+    </script>
+</body>
+</html>
