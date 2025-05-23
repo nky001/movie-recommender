@@ -1,0 +1,10 @@
+{
+  "title": "Movie Recommendation System",
+  "description": "A content-based movie and TV show recommendation system built using TF-IDF vectorization and cosine similarity.",
+  "image": "https://raw.githubusercontent.com/nky001/movie-recommender/main/image.png",
+  "playground": "https://github.com/nky001/movie-recommender",
+  "featured": false,
+  "techStack": ["Python", "Flask", "Scikit-learn", "Pandas", "NumPy" ],
+  "status": "active",
+  "showReadme": true
+}
